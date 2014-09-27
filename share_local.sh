@@ -1,29 +1,31 @@
 ###############################################################################
 ## 
-## Script to zip and share starterpack.sh
+## Script to zip and locally share 
 ##     
 ## Copyright Tinker Academy 2014
 ###############################################################################
-export PATH_TO_DROPBOX="/Users/ron/Dropbox"
-export PATH_TO_COURSEUPDATE="/Users/ron/Documents/TinkerAcademy/CourseUpdate"
-export PATH_TO_WEBSERVER="/Users/ron/Documents/mongoose"
-export TARGET_FILE=CourseUpdate.zip
+export UPDATE_DATE=`date +%Y-%m-%d`
+export DROPBOX_PATH="/Users/ron/Dropbox"
+export COURSEUPDATE_PATH="/Users/ron/Documents/TinkerAcademy/CourseUpdate"
+export COURSEUPDATE_FILENAME=courseupdate$UPDATE_DATE
+export IP_ADDRESS=`ifconfig | grep -A 4 en1: | grep inet | grep -v inet6 | cut -d' ' -f2`
+export TARGET_FILENAME=CourseUpdate$UPDATE_DATE.zip
+export WEBSERVER_PATH="/Users/ron/Documents/mongoose"
 pushd `pwd`
-rm -rf $PATH_TO_COURSEUPDATE/classes
-cp -r $PATH_TO_DROPBOX/classes $PATH_TO_COURSEUPDATE/classes
-cd $PATH_TO_COURSEUPDATE
-rm -rf $TARGET_FILE
-cd classes
+rm -rf $COURSEUPDATE_PATH/$COURSEUPDATE_FILENAME
+cp -r $DROPBOX_PATH/classes $COURSEUPDATE_PATH/$COURSEUPDATE_FILENAME
+cd $COURSEUPDATE_PATH
+rm -rf $TARGET_FILENAME
+cd $COURSEUPDATE_FILENAME
 ln -s scripts/update_course.py "Course Update"
 chmod u+x "Course Update"
-cd $PATH_TO_COURSEUPDATE
-zip -r $TARGET_FILE classes 
-echo $TARGET_FILE created
-rm -rf $PATH_TO_COURSEUPDATE/classes
+cd $COURSEUPDATE_PATH
+zip -y -r $TARGET_FILENAME $COURSEUPDATE_FILENAME 
+echo $TARGET_FILENAME created
+rm -rf $COURSEUPDATE_PATH/$COURSEUPDATE_FILENAME
 popd
 pushd .
-cd $PATH_TO_WEBSERVER
-sudo ./mongoose -listening_ports 80 -document_root $PATH_TO_COURSEUPDATE
+cd $WEBSERVER_PATH
+echo "IP_ADDRESS ["$IP_ADDRESS"]"
+sudo ./mongoose -listening_ports 80 -document_root $COURSEUPDATE_PATH
 popd
-echo "Web Server Started"
-
