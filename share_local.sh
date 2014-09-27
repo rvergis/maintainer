@@ -19,6 +19,7 @@ chmod u+x "Course Update"
 cd $PATH_TO_COURSEUPDATE
 zip -r $TARGET_FILE classes 
 echo $TARGET_FILE created
+rm -rf $PATH_TO_COURSEUPDATE/classes
 popd
 pushd .
 cd $PATH_TO_WEBSERVER
