@@ -6,7 +6,7 @@
 ###############################################################################
 export UPDATE_DATE=`date +%Y-%m-%d`
 export DROPBOX_PATH="/Users/ron/Dropbox"
-export COURSEUPDATE_PATH="/Users/ron/Documents/TinkerAcademy/CourseUpdate"
+export COURSEUPDATE_PATH="/Users/ron/Documents/TinkerAcademy/WebRoot"
 export COURSEUPDATE_FILENAME=courseupdate$UPDATE_DATE
 export IP_ADDRESS=`ifconfig | grep -A 4 en1: | grep inet | grep -v inet6 | cut -d' ' -f2`
 export TARGET_FILENAME=CourseUpdate$UPDATE_DATE.zip
@@ -19,6 +19,14 @@ rm -rf $TARGET_FILENAME
 cd $COURSEUPDATE_FILENAME
 ln -s scripts/update_course.py "Course Update"
 chmod u+x "Course Update"
+mkdir -p maintenance
+cd maintenance
+ln -s ../scripts/update_bash_env.sh "Update Environment"
+ln -s ../scripts/restart_dropbox.sh "Restart Dropbox"
+ln -s ../scripts/reset_minecraft.py "Reset Minecraft"
+chmod u+x "Update Environment"
+chmod u+x "Restart Dropbox"
+chmod u+x "Reset Minecraft"
 cd $COURSEUPDATE_PATH
 zip -y -r $TARGET_FILENAME $COURSEUPDATE_FILENAME 
 echo $TARGET_FILENAME created
