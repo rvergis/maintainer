@@ -11,6 +11,7 @@ export COURSEUPDATE_FILENAME=courseupdate$UPDATE_DATE
 export IP_ADDRESS=`ifconfig | grep -A 4 en1: | grep inet | grep -v inet6 | cut -d' ' -f2`
 export TARGET_FILENAME=CourseUpdate$UPDATE_DATE.zip
 export WEBSERVER_PATH="/Users/ron/Documents/mongoose"
+export JETTY_HOME="/Users/ron/Documents/jetty"
 pushd `pwd`
 rm -rf $COURSEUPDATE_PATH/$COURSEUPDATE_FILENAME
 cp -r $DROPBOX_PATH/classes $COURSEUPDATE_PATH/$COURSEUPDATE_FILENAME
@@ -33,7 +34,9 @@ echo $TARGET_FILENAME created
 rm -rf $COURSEUPDATE_PATH/$COURSEUPDATE_FILENAME
 popd
 pushd .
-cd $WEBSERVER_PATH
 echo "IP_ADDRESS ["$IP_ADDRESS"]"
-sudo ./mongoose -listening_ports 80 -document_root $COURSEUPDATE_PATH
+#cd $WEBSERVER_PATH
+#sudo ./mongoose -listening_ports 80 -document_root $COURSEUPDATE_PATH
+cd $JETTY_HOME
+sudo java -jar start.jar 
 popd
